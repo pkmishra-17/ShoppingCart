@@ -1,0 +1,58 @@
+<form class='form-inline'>
+  <div class='row'>
+  <div class="form-group">
+    <label class='form-control-label' for='categories'>Search by category: </label>
+    <select class='form-control form-control-xs' ng-model='view.selectCategory'>
+      <option class='form-control' value=''></option>
+      <option class='form-control' ng-repeat='category in view.categories' value='{{category}}'>{{category}}</option>
+    </select>
+  </div>
+  <div class='form-group'>
+    <label class='form-control-label' for='search'>Search by name:</label>
+    <input class='form-control form-control-xs' ng-model='view.search' type="text" name="search" placeholder='Search'>
+  </div>
+    <button type="submit" class='btn btn-info'name="button" ng-click='view.checkout()'>Checkout | Bag: {{view.total}}</button>
+  </div>
+</form>
+<div class="container">
+  <table class='table table-bordered'>
+    <thead>
+      <tr>
+        <th>Tea</th>
+        <th>Information
+          <label class='price select' for='price'>Sort By Price:
+          <select class='price c-select' ng-model='view.sortPrice'>
+            <option value='price'>Low to High</option>
+            <option value='-price'>High to Low</option>
+          </select>
+          </label>
+        </th>
+      </tr>
+    </thead>
+    <tbody ng-repeat="tea in view.data | filter:view.filterStuff | filter:view.search:strict | orderBy: view.sortPrice track by $index ">
+      <tr>
+        <td><img ng-src='{{tea.imageUrl}}'/></td>
+        <td>
+          <label class='qty select' for='qty'>Quantity:
+            <select class='c-select' ng-model='amount' ng-options='innerAmount for innerAmount in view.addQty'>
+            </select>
+            <button type='button' class='qty-btn btn btn-warning' ng-click='view.addToCart(tea, amount)' name='add'>Add To Bag</button>
+          </label>
+          <h3>{{tea.name}}</h3>
+          <p>Price: {{tea.price | currencyFormat:money | currency}}</p>
+          <div class="caffeine">
+            <h4>Caffeine Content</h4>
+            <p>mg/serving: {{tea.caffeineScale}}</p>
+            <caffeine-meter caffeinemg='tea.caffeineScale'></caffeine-meter>
+          </div>
+          <p>Ingredients: {{tea.ingredients}}</p>
+          <p>Rating: {{tea.rating}}</p>
+          <p>In Stock? {{tea.instock | instock:instock}}</p>
+          <p>Categories:
+            <li ng-repeat='cat in tea.categories'>{{cat}}</li>
+          </p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

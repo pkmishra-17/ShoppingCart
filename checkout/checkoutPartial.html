@@ -1,0 +1,31 @@
+<div class="container">
+  <h1>My Shopping Cart</h1>
+  <h1>Order Total: {{vm.orderTotal | currencyFormat:money | currency}}</h1>
+    <div class='row'>
+      <div class='header header-tea col-md-6'>Tea</div>
+      <div class='header header-qty col-md-2'>Quantity</div>
+      <div class='header header-sub col-md-4'>Subtotal</div>
+    </div>
+  <div ng-repeat="item in vm.cart track by $index">
+    <div class='row cartItems'>
+      <div class='col-md-6 teaCart'>
+        <h3>{{item.name}}</h3>
+        <img ng-src='{{item.imageUrl}}'/>
+        <p>Ingredients: {{item.ingredients}}</p>
+        <p>Rating: {{item.rating}}</p>
+      </div>
+      <div class='col-md-2 qtyCart'>
+        <span ng-hide='item.editToggle'>{{item.qty}}</span>
+        <form ng-show='item.editToggle' name='edit'>
+          <input class='editQty'type="number" name="editOrder" ng-model='item.qty'>
+        </form>
+      </div>
+      <div class='col-md-4 subCart'>
+        <p class='checkout-p'>{{item.qty * item.price | currencyFormat:money | currency}}</p>
+        <button type='button' class='checkout btn btn-warning' ng-click='vm.RemoveItem(item)' name='remove'>Remove</button>
+        <button type='button' class='checkout btn btn-info' ng-hide='item.editToggle' ng-click='vm.editToggle(item)' name='edit'>Edit</button>
+        <button ng-show='item.editToggle' type='button' class='checkout btn btn-info' ng-click='vm.save(item)' name='edit'>Save</button>
+      </div>
+    </div>
+  </div>
+</div>
